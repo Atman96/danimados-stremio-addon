@@ -1,7 +1,5 @@
 
-const { addonBuilder } = require("stremio-addon-sdk");
-const cheerio = require("cheerio");
-
+const { addonBuilder, serveHTTP } = require ("stremio-addon-sdk");
 const BASE_URL = "https://danimados.cc";
 const CATALOG_URL = `${BASE_URL}/series/`;
 
@@ -168,17 +166,10 @@ builder.defineMetaHandler(async ({ id }) => {
   }
 });
 
-const addonInterface = builder.getInterface();
+const PORT = Number(process.env.PORT) || 7000;
 
-const express = require("express");
-const app = express();
-
-app.use("/", (req, res) => {
-  addonInterface.get(req, res);
+serveHTTP(builder.getInterface(), {
+  port: PORT
 });
 
-const PORT = process.env.PORT || 7000;
-
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Danimados Addon funcionando en puerto ${PORT}`);
-});
+console.log(`Danimados funcionando en puerto ${PORT}`);
