@@ -1,7 +1,7 @@
 
 const { addonBuilder, serveHTTP } = require ("stremio-addon-sdk");
 const BASE_URL = "https://danimados.cc";
-const CATALOG_URL = `${BASE_URL}/series/`;
+const CATALOG_URL = `${BASE_URL}/`;
 
 const manifest = {
   id: "org.atman96.danimados",
