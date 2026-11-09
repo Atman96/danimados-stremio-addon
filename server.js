@@ -314,13 +314,14 @@ builder.defineMetaHandler(async ({ id }) => {
 
 builder.defineStreamHandler(async ({ id }) => {
 
-  console.log("Solicitud:", id);
+  console.log("STREAM ID:");
+  console.log(id);
 
   return {
     streams: [
       {
-        name: "Danimados",
-        title: "Prueba",
+        name: "Debug",
+        title: id,
         url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
       }
     ]
