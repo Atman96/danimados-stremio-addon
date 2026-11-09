@@ -1,7 +1,9 @@
 
-const { addonBuilder, serveHTTP } = require ("stremio-addon-sdk");
+const { addonBuilder, serveHTTP } = require("stremio-addon-sdk");
+const cheerio = require("cheerio");
+
 const BASE_URL = "https://danimados.cc";
-const CATALOG_URL = `${BASE_URL}/`;
+const CATALOG_URL = `${BASE_URL}/series/`;
 
 const manifest = {
   id: "org.atman96.danimados",
