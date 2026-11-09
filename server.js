@@ -1,4 +1,18 @@
+async function prueba() {
 
+  const url = "https://danimados.cc/episodios/los-picapiedra-1x1/";
+
+  const response = await fetch(url);
+  const html = await response.text();
+
+  console.log(html.includes("player-option-1"));
+  console.log(html.includes("player-option-2"));
+  console.log(html.includes("player-option-3"));
+  console.log(html.includes("player-option-4"));
+
+}
+
+prueba();
 const { addonBuilder, serveHTTP } = require("stremio-addon-sdk");
 const cheerio = require("cheerio");
 
