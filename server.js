@@ -53,6 +53,7 @@ async function getPage(url) {
   return cheerio.load(await response.text());
 }
 
+
 function extractSeries($) {
   const results = new Map();
 
@@ -63,6 +64,7 @@ function extractSeries($) {
     if (!href) return;
 
     let url;
+
     try {
       url = new URL(href, BASE_URL);
     } catch {
@@ -70,31 +72,36 @@ function extractSeries($) {
     }
 
     if (url.hostname !== "danimados.cc") return;
-    if (url.pathname === "/" || url.pathname === "/series/") return;
 
-    const image = link.find("img").first();
+    if (
+      !url.pathname.startsWith("/series/") ||
+      url.pathname === "/series/"
+    ) return;
+
+    const image =
+      link.find("img").first().length
+        ? link.find("img").first()
+        : link.parent().find("img").first();
+
     const title = (
       link.attr("title") ||
       image.attr("alt") ||
-      link.find("h2, h3, h4").first().text() ||
       link.text()
-    ).trim().replace(/\s+/g, " ");
+    )
+      .replace(/\s+/g, " ")
+      .replace(/\bTV\b/gi, "")
+      .trim();
 
-    const poster =
-      image.attr("data-src") ||
-      image.attr("data-lazy-src") ||
-      image.attr("src");
-
-    if (!title || title.length < 2 || !poster) return;
-
-    const posterUrl = new URL(poster, BASE_URL).href;
+    if (!title || title.length < 2) return;
 
     results.set(url.href, {
       id: makeId(url.href),
       type: "series",
       name: title,
-      poster: posterUrl,
-      description: "",
+      poster: image.attr("data-src") ||
+              image.attr("data-lazy-src") ||
+              image.attr("src") ||
+              undefined,
       url: url.href
     });
   });
