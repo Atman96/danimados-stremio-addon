@@ -313,10 +313,17 @@ builder.defineMetaHandler(async ({ id }) => {
 // eluden restricciones de sus proveedores.
 
 builder.defineStreamHandler(async ({ id }) => {
-  console.log("Solicitud de fuente:", id);
+
+  console.log("Solicitud:", id);
 
   return {
-    streams: []
+    streams: [
+      {
+        name: "Danimados",
+        title: "Prueba",
+        url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+      }
+    ]
   };
 });
 
