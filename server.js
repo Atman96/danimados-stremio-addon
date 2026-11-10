@@ -316,51 +316,30 @@ builder.defineStreamHandler(async ({ id }) => {
 
   try {
 
-      const episodeUrl = getUrl(id);
+    const episodeUrl = getUrl(id);
+    const $ = await getPage(episodeUrl);
 
-  const $ = await getPage(episodeUrl);
-    const html = $.html();
+    const player = $(".dooplay_player_option").first();
 
-const match = html.match(/player_api":"([^"]+)/);
+    const postId = player.attr("data-post");
+    const nume = player.attr("data-nume");
+    const type = player.attr("data-type");
 
-return {
-  streams: [
-    {
-      name: "Debug",
-      title: match ? match[1] : "NO API",
-      url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
-    }
-  ]
-};
-console.log($.html().includes("wp-json/dooplayer"));
-console.log($.html().includes("admin-ajax"));
-console.log($.html().includes("dooplay_player_option"));
-    
-return {
-  streams: [
-    {
-      name: "Debug",
-      title: "Revisa logs Render",
-      url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
-    }
-  ]
-};
-  const players = [];
+    const apiUrl =
+      `https://danimados.cc/wp-json/dooplayer/v2/${postId}/${type}/${nume}`;
 
-$(".dooplay_player_option").each((i, el) => {
-  players.push(
-    `N${$(el).attr("data-nume")}`
-  );
-});
- return {
-  streams: [
-    {
-      name: "Debug",
-      title: `POST:${postId} TYPE:${type} NUME:${nume}`,
-      externalUrl: episodeUrl
-    }
-  ]
-};
+    const response = await fetch(apiUrl);
+    const text = await response.text();
+
+    return {
+      streams: [
+        {
+          name: "Debug",
+          title: text.substring(0, 200),
+          url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+        }
+      ]
+    };
 
   } catch (error) {
 
