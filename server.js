@@ -314,22 +314,43 @@ builder.defineMetaHandler(async ({ id }) => {
 
 builder.defineStreamHandler(async ({ id }) => {
 
-  const episodeUrl = getUrl(id);
+  try {
 
-  console.log("EPISODIO:", episodeUrl);
+    const episodeUrl = getUrl(id);
 
-  return {
-    streams: [
-      {
-        name: "Debug",
-        title: episodeUrl,
-        url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
-      }
-    ]
-  };
+    const $ = await getPage(episodeUrl);
+
+    const postId =
+      $(".dooplay_player_option").first().attr("data-post");
+
+    const playerCount =
+      $(".dooplay_player_option").length;
+
+    return {
+      streams: [
+        {
+          name: "Debug",
+          title: `POST:${postId} PLAYERS:${playerCount}`,
+          url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+        }
+      ]
+    };
+
+  } catch (error) {
+
+    return {
+      streams: [
+        {
+          name: "Error",
+          title: error.message,
+          url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+        }
+      ]
+    };
+
+  }
 
 });
-
 // Iniciar servidor
 
 const PORT = Number(process.env.PORT) || 7000;
