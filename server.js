@@ -319,6 +319,19 @@ builder.defineStreamHandler(async ({ id }) => {
       const episodeUrl = getUrl(id);
 
   const $ = await getPage(episodeUrl);
+    const html = $.html();
+
+const match = html.match(/player_api":"([^"]+)/);
+
+return {
+  streams: [
+    {
+      name: "Debug",
+      title: match ? match[1] : "NO API",
+      url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+    }
+  ]
+};
 console.log($.html().includes("wp-json/dooplayer"));
 console.log($.html().includes("admin-ajax"));
 console.log($.html().includes("dooplay_player_option"));
