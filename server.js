@@ -319,7 +319,19 @@ builder.defineStreamHandler(async ({ id }) => {
       const episodeUrl = getUrl(id);
 
   const $ = await getPage(episodeUrl);
-
+console.log($.html().includes("wp-json/dooplayer"));
+console.log($.html().includes("admin-ajax"));
+console.log($.html().includes("dooplay_player_option"));
+    
+return {
+  streams: [
+    {
+      name: "Debug",
+      title: "Revisa logs Render",
+      url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+    }
+  ]
+};
   const players = [];
 
 $(".dooplay_player_option").each((i, el) => {
