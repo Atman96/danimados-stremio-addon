@@ -322,12 +322,11 @@ builder.defineStreamHandler(async ({ id }) => {
 
   const players = [];
 
-  $(".dooplay_player_option").each((i, el) => {
-    players.push(
-      `POST:${$(el).attr("data-post")} TYPE:${$(el).attr("data-type")} NUME:${$(el).attr("data-nume")}`
-    );
-  });
-
+$(".dooplay_player_option").each((i, el) => {
+  players.push(
+    `N${$(el).attr("data-nume")}`
+  );
+});
   return {
     streams: [
       {
