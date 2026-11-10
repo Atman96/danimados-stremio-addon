@@ -320,17 +320,17 @@ builder.defineStreamHandler(async ({ id }) => {
 
     const $ = await getPage(episodeUrl);
 
-    const postId =
-      $(".dooplay_player_option").first().attr("data-post");
+    const player = $(".dooplay_player_option").first();
 
-    const playerCount =
-      $(".dooplay_player_option").length;
+    const postId = player.attr("data-post");
+    const nume = player.attr("data-nume");
+    const type = player.attr("data-type");
 
     return {
       streams: [
         {
           name: "Debug",
-          title: `POST:${postId} PLAYERS:${playerCount}`,
+          title: `POST:${postId} TYPE:${type} NUME:${nume}`,
           url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         }
       ]
