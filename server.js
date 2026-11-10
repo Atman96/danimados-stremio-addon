@@ -314,18 +314,20 @@ builder.defineMetaHandler(async ({ id }) => {
 
 builder.defineStreamHandler(async ({ id }) => {
 
-  console.log("STREAM ID:");
-  console.log(id);
+  const episodeUrl = getUrl(id);
+
+  console.log("EPISODIO:", episodeUrl);
 
   return {
     streams: [
       {
         name: "Debug",
-        title: id,
+        title: episodeUrl,
         url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
       }
     ]
   };
+
 });
 
 // Iniciar servidor
