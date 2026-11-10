@@ -316,23 +316,27 @@ builder.defineStreamHandler(async ({ id }) => {
 
   try {
 
-    const players = [];
+      const episodeUrl = getUrl(id);
 
-$(".dooplay_player_option").each((i, el) => {
-  players.push(
-    `#${i + 1} N:${$(el).attr("data-nume")}`
-  );
-});
+  const $ = await getPage(episodeUrl);
 
-return {
-  streams: [
-    {
-      name: "Debug",
-      title: players.join(" | "),
-      url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
-    }
-  ]
-};
+  const players = [];
+
+  $(".dooplay_player_option").each((i, el) => {
+    players.push(
+      `POST:${$(el).attr("data-post")} TYPE:${$(el).attr("data-type")} NUME:${$(el).attr("data-nume")}`
+    );
+  });
+
+  return {
+    streams: [
+      {
+        name: "Debug",
+        title: players.join(" | "),
+        url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+      }
+    ]
+  };
 
   } catch (error) {
 
