@@ -327,15 +327,15 @@ $(".dooplay_player_option").each((i, el) => {
     `N${$(el).attr("data-nume")}`
   );
 });
-  return {
-    streams: [
-      {
-        name: "Debug",
-        title: players.join(" | "),
-        url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
-      }
-    ]
-  };
+ return {
+  streams: [
+    {
+      name: "Debug",
+      title: `POST:${postId} TYPE:${type} NUME:${nume}`,
+      externalUrl: episodeUrl
+    }
+  ]
+};
 
   } catch (error) {
 
