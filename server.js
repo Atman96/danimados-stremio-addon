@@ -329,18 +329,25 @@ builder.defineStreamHandler(async ({ id }) => {
       `https://danimados.cc/wp-json/dooplayer/v2/${postId}/${type}/${nume}`;
 
     const response = await fetch(apiUrl);
-    const text = await response.text();
 
+console.log("API URL:", apiUrl);
+console.log("STATUS:", response.status);
+console.log("CONTENT-TYPE:", response.headers.get("content-type"));
+   
+const text = await response.text();
+    
+console.log("RESPUESTA:");
+console.log(text.substring(0, 1000));
+    
     return {
       streams: [
         {
           name: "Debug",
-          title: text.substring(0, 200),
-          url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
-        }
-      ]
-    };
-
+      title: "Ver logs",
+      url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+    }
+  ]
+};
   } catch (error) {
 
     return {
