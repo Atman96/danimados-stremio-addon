@@ -335,9 +335,12 @@ console.log("STATUS:", response.status);
 console.log("CONTENT-TYPE:", response.headers.get("content-type"));
    
 const text = await response.text();
-    
-console.log("RESPUESTA:");
-console.log(text.substring(0, 1000));
+
+console.log("LONGITUD:");
+console.log(text.length);
+
+console.log("RESPUESTA JSON:");
+console.log(JSON.stringify(text));
     
     return {
       streams: [
