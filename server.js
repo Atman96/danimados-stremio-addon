@@ -316,39 +316,39 @@ builder.defineStreamHandler(async ({ id }) => {
 
   try {
 
-const episodeUrl = getUrl(id);
+    const episodeUrl = getUrl(id);
 
-const $ = await getPage(episodeUrl);
+    const $ = await getPage(episodeUrl);
 
-const html = $.html();
+    const html = $.html();
 
-const foundAjax = html.includes("admin-ajax");
-const foundMethod = html.includes("play_method");
-const foundAdminAjax = html.includes("admin_ajax");
+    const foundAjax = html.includes("admin-ajax");
+    const foundMethod = html.includes("play_method");
+    const foundAdminAjax = html.includes("admin_ajax");
 
-return {
-  streams: [
-    {
-      name: "Debug",
-      title: `AJAX:${foundAjax} METHOD:${foundMethod} ADMIN:${foundAdminAjax}`,
-      url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
-    }
-  ]
-};
+    return {
+      streams: [
+        {
+          name: "Debug",
+          title: `AJAX:${foundAjax} METHOD:${foundMethod} ADMIN:${foundAdminAjax}`,
+          url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+        }
+      ]
+    };
 
-} catch (error) {
+  } catch (error) {
 
-  return {
-    streams: [
-      {
-        name: "Error",
-        title: error.message,
-        url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
-      }
-    ]
-  };
+    return {
+      streams: [
+        {
+          name: "Error",
+          title: error.message,
+          url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+        }
+      ]
+    };
 
-}    
+  }
 
 });
   
