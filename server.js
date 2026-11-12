@@ -359,6 +359,10 @@ console.log(
 
 const player = $(".dooplay_player_option").first();
 
+console.log(
+  $.html().match(/admin-ajax\.php.{0,500}/s)
+);
+  
 const postId = player.attr("data-post");
 const nume = player.attr("data-nume");
 const type = player.attr("data-type");
