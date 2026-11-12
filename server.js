@@ -318,11 +318,23 @@ builder.defineStreamHandler(async ({ id }) => {
 
     const episodeUrl = getUrl(id);
 
+    const $ = await getPage(episodeUrl);
+
+    const html = $.html();
+
+    const foundAjax = html.includes("admin-ajax.php");
+    const foundMethod = html.includes("play_method");
+    const foundAdminAjax = html.includes("admin_ajax");
+
+    console.log("AJAX:", foundAjax);
+    console.log("METHOD:", foundMethod);
+    console.log("ADMIN:", foundAdminAjax);
+
     return {
       streams: [
         {
           name: "Debug",
-          title: episodeUrl,
+          title: `AJAX:${foundAjax} METHOD:${foundMethod} ADMIN:${foundAdminAjax}`,
           url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
         }
       ]
