@@ -336,6 +336,20 @@ return {
   ]
 };
 
+} catch (error) {
+
+  return {
+    streams: [
+      {
+        name: "Error",
+        title: error.message,
+        url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+      }
+    ]
+  };
+
+}    
+
 // Iniciar servidor
 
 const PORT = Number(process.env.PORT) || 7000;
