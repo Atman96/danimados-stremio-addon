@@ -351,16 +351,21 @@ const text = await response.text();
 
 console.log("AJAX RESPONSE:");
 console.log(text);
+
+const data = JSON.parse(text);
+
+console.log("EMBED URL:");
+console.log(data.embed_url);
     
 return {
   streams: [
     {
-      name: "Debug",
-      title: `POST:${postId}`,
-      url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+      name: "Danimados",
+      title: data.embed_url,
+      externalUrl: data.embed_url
     }
   ]
-};    
+};
     
   } catch (error) {
 
