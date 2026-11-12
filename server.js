@@ -319,6 +319,21 @@ try {
 const episodeUrl = getUrl(id);
 const $ = await getPage(episodeUrl);
 
+const html = $.html();
+
+const idx = html.indexOf("player_api");
+
+console.log("POSICION:", idx);
+
+if (idx > -1) {
+  console.log(
+    html.substring(
+      Math.max(0, idx - 500),
+      idx + 1500
+    )
+  );
+}
+
 console.log(
   html.substring(
     Math.max(0, idx - 300),
