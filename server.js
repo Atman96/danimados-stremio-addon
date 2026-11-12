@@ -325,21 +325,43 @@ builder.defineStreamHandler(async ({ id }) => {
 
     console.log("AJAX MATCH:");
     console.log(ajaxMatch ? ajaxMatch[0] : "NO MATCH");
+    const player = $(".dooplay_player_option").first();
 
-    const foundAjax = html.includes("admin-ajax");
-    const foundMethod = html.includes("play_method");
-    const foundAdminAjax = html.includes("admin_ajax");
+    const postId = player.attr("data-post");
+    const nume = player.attr("data-nume");
+    const type = player.attr("data-type");
 
-    return {
+    const response = await fetch(
+     "https://danimados.cc/wp-admin/admin-ajax.php",
+     {
+       method: "POST",
+       headers: {
+         "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: new URLSearchParams({
+        action: "doo_player_ajax",
+        post: postId,
+        nume: nume,
+        type: type
+      })
+    }
+  );
+
+const text = await response.text();
+
+console.log("AJAX RESPONSE:");
+console.log(text);
+    
+return {
   streams: [
     {
       name: "Debug",
-      title: "Buscar AJAX",
+      title: `POST:${postId}`,
       url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
     }
   ]
-};
-
+};    
+    
   } catch (error) {
 
     return {
