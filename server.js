@@ -321,20 +321,24 @@ builder.defineStreamHandler(async ({ id }) => {
     const $ = await getPage(episodeUrl);
 
     const html = $.html();
+    const ajaxMatch = html.match(/admin-ajax.{0,1000}/s);
+
+    console.log("AJAX MATCH:");
+    console.log(ajaxMatch ? ajaxMatch[0] : "NO MATCH");
 
     const foundAjax = html.includes("admin-ajax");
     const foundMethod = html.includes("play_method");
     const foundAdminAjax = html.includes("admin_ajax");
 
     return {
-      streams: [
-        {
-          name: "Debug",
-          title: `AJAX:${foundAjax} METHOD:${foundMethod} ADMIN:${foundAdminAjax}`,
-          url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
-        }
-      ]
-    };
+  streams: [
+    {
+      name: "Debug",
+      title: "Buscar AJAX",
+      url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+    }
+  ]
+};
 
   } catch (error) {
 
