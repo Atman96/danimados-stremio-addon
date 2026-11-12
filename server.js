@@ -314,86 +314,36 @@ builder.defineMetaHandler(async ({ id }) => {
 
 builder.defineStreamHandler(async ({ id }) => {
 
-try {
+  try {
 
-const episodeUrl = getUrl(id);
-const $ = await getPage(episodeUrl);
+    const episodeUrl = getUrl(id);
 
-const html = $.html();
+    return {
+      streams: [
+        {
+          name: "Debug",
+          title: episodeUrl,
+          url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+        }
+      ]
+    };
 
-const foundAjax = html.includes("admin-ajax.php");
+  } catch (error) {
 
-const foundMethod = html.includes("play_method");
+    return {
+      streams: [
+        {
+          name: "Error",
+          title: error.message,
+          url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+        }
+      ]
+    };
 
-const foundAdminAjax = html.includes("admin_ajax");
+  }
 
-return {
-  streams: [
-    {
-      name: "Debug",
-      title: `AJAX:${foundAjax} METHOD:${foundMethod} ADMIN:${foundAdminAjax}`,
-      url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
-    }
-  ]
-};  
+});
 
-const idx = html.indexOf("player_api");
-
-console.log("POSICION:", idx);
-
-if (idx > -1) {
-  console.log(
-    html.substring(
-      Math.max(0, idx - 500),
-      idx + 1500
-    )
-  );
-}
-
-console.log(
-  html.substring(
-    Math.max(0, idx - 300),
-    idx + 1000
-  )
-);
-
-const player = $(".dooplay_player_option").first();
-
-console.log(
-  $.html().match(/admin-ajax\.php.{0,500}/s)
-);
-  
-const postId = player.attr("data-post");
-const nume = player.attr("data-nume");
-const type = player.attr("data-type");
-
-const apiUrl =
-  `https://danimados.cc/wp-json/dooplayer/v2/${postId}/${type}/${nume}`;
-
-const response = await fetch(apiUrl);
-
-console.log("API URL:", apiUrl);
-console.log("STATUS:", response.status);
-console.log("CONTENT-TYPE:", response.headers.get("content-type"));
-
-const text = await response.text();
-
-console.log("LONGITUD:");
-console.log(text.length);
-
-console.log("RESPUESTA JSON:");
-console.log(JSON.stringify(text));
-
-return {
-  streams: [
-    {
-      name: "Debug",
-      title: `IDX:${idx}`,
-      url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
-    }
-  ]
-};
-  
 // Iniciar servidor
 
 const PORT = Number(process.env.PORT) || 7000;
