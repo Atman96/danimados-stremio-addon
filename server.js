@@ -314,26 +314,33 @@ builder.defineMetaHandler(async ({ id }) => {
 
 builder.defineStreamHandler(async ({ id }) => {
 
-  try {
+try {
 
-    const episodeUrl = getUrl(id);
-    const $ = await getPage(episodeUrl);
+const episodeUrl = getUrl(id);
+const $ = await getPage(episodeUrl);
 
-    const player = $(".dooplay_player_option").first();
+console.log(
+  html.substring(
+    Math.max(0, idx - 300),
+    idx + 1000
+  )
+);
 
-    const postId = player.attr("data-post");
-    const nume = player.attr("data-nume");
-    const type = player.attr("data-type");
+const player = $(".dooplay_player_option").first();
 
-    const apiUrl =
-      `https://danimados.cc/wp-json/dooplayer/v2/${postId}/${type}/${nume}`;
+const postId = player.attr("data-post");
+const nume = player.attr("data-nume");
+const type = player.attr("data-type");
 
-    const response = await fetch(apiUrl);
+const apiUrl =
+  `https://danimados.cc/wp-json/dooplayer/v2/${postId}/${type}/${nume}`;
+
+const response = await fetch(apiUrl);
 
 console.log("API URL:", apiUrl);
 console.log("STATUS:", response.status);
 console.log("CONTENT-TYPE:", response.headers.get("content-type"));
-   
+
 const text = await response.text();
 
 console.log("LONGITUD:");
@@ -341,31 +348,17 @@ console.log(text.length);
 
 console.log("RESPUESTA JSON:");
 console.log(JSON.stringify(text));
-    
-    return {
-      streams: [
-        {
-          name: "Debug",
-      title: "Ver logs",
+
+return {
+  streams: [
+    {
+      name: "Debug",
+      title: `IDX:${idx}`,
       url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
     }
   ]
 };
-  } catch (error) {
-
-    return {
-      streams: [
-        {
-          name: "Error",
-          title: error.message,
-          url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
-        }
-      ]
-    };
-
-  }
-
-});
+  
 // Iniciar servidor
 
 const PORT = Number(process.env.PORT) || 7000;
